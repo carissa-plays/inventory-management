@@ -1,0 +1,57 @@
+/*
+ * Design tokens for the SaaS-style redesign.
+ * Values are drawn from the app's existing hex/rem/px usage (not invented)
+ * so the migration is a token-ification of what was already there.
+ */
+:root {
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-8: 48px;
+
+  /* Typography */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 0.938rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-2xl: 1.875rem;
+  --font-size-3xl: 2.25rem;
+
+  /* Color roles — dark theme */
+  --color-bg-canvas: #0b1220;
+  --color-bg-surface: #131c2e;
+  --color-bg-surface-hover: #1b2740;
+  --color-border-subtle: #253048;
+  --color-border-default: #33415f;
+  --color-text-primary: #e6ebf5;
+  --color-text-secondary: #93a1b8;
+  --color-text-tertiary: #64748b;
+  --color-accent: #3b82f6;
+  --color-accent-hover: #60a5fa;
+  --color-accent-subtle: #16233d;
+  --color-success: #4ade80;
+  --color-success-subtle: #12261a;
+  --color-warning: #fbbf24;
+  --color-warning-subtle: #2b2210;
+  --color-danger: #f87171;
+  --color-danger-subtle: #2a1416;
+  --color-info: #60a5fa;
+  --color-info-subtle: #16233d;
+
+  /* Elevation & radius */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.45);
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Sidebar */
+  --sidebar-width-expanded: 240px;
+  --sidebar-width-collapsed: 64px;
+}

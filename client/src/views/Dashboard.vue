@@ -85,7 +85,7 @@
               <!-- Left: Donut Chart -->
               <div class="order-health-chart">
                 <svg viewBox="0 0 200 200" class="donut-svg-compact">
-                  <circle cx="100" cy="100" r="65" fill="none" stroke="#e2e8f0" stroke-width="25"/>
+                  <circle cx="100" cy="100" r="65" fill="none" stroke="var(--color-border-subtle)" stroke-width="25"/>
                   <circle cx="100" cy="100" r="65" fill="none" stroke="#10b981" stroke-width="25"
                     :stroke-dasharray="`${getCircleSegment(statusData.delivered)} 408`"
                     stroke-dashoffset="0" transform="rotate(-90 100 100)"/>
@@ -304,12 +304,14 @@ import { useI18n } from '../composables/useI18n'
 import { formatCurrency } from '../utils/currency'
 import ProductDetailModal from '../components/ProductDetailModal.vue'
 import BacklogDetailModal from '../components/BacklogDetailModal.vue'
+import PurchaseOrderModal from '../components/PurchaseOrderModal.vue'
 
 export default {
   name: 'Dashboard',
   components: {
     ProductDetailModal,
     BacklogDetailModal,
+    PurchaseOrderModal,
   },
   setup() {
     const { t, currentCurrency, translateProductName, translateWarehouse } = useI18n()
@@ -735,8 +737,8 @@ export default {
 }
 
 .header-meta {
-  font-size: 0.813rem;
-  color: #64748b;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
 }
 
 .kpi-section {
@@ -744,9 +746,9 @@ export default {
 }
 
 .section-title {
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   font-weight: 600;
-  color: #475569;
+  color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 1rem;
@@ -760,8 +762,8 @@ export default {
 
 .kpi-card {
   background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
   padding: 1rem;
 }
 
@@ -770,31 +772,31 @@ export default {
 }
 
 .kpi-label {
-  font-size: 0.813rem;
+  font-size: var(--font-size-sm);
   font-weight: 600;
-  color: #64748b;
+  color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.025em;
 }
 
 .kpi-value {
-  font-size: 2rem;
+  font-size: var(--font-size-2xl);
   font-weight: 700;
-  color: #0f172a;
+  color: var(--color-text-primary);
   margin-bottom: 0.5rem;
   letter-spacing: -0.025em;
 }
 
 .kpi-goal {
-  font-size: 0.813rem;
-  color: #64748b;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
   margin-bottom: 0.75rem;
 }
 
 .kpi-progress-bar {
   width: 100%;
   height: 6px;
-  background: #f1f5f9;
+  background: var(--color-bg-surface-hover);
   border-radius: 3px;
   overflow: hidden;
 }
@@ -847,8 +849,8 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.625rem;
-  font-size: 0.875rem;
-  color: #475569;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
 }
 
 .legend-dot {
@@ -883,7 +885,7 @@ export default {
 
 .donut-center-label {
   font-size: 12px;
-  fill: #64748b;
+  fill: var(--color-text-secondary);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -891,7 +893,7 @@ export default {
 
 .donut-center-value {
   font-size: 36px;
-  fill: #0f172a;
+  fill: var(--color-text-primary);
   font-weight: 700;
 }
 
@@ -905,8 +907,8 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.875rem;
-  color: #475569;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
   font-weight: 500;
 }
 
@@ -927,17 +929,17 @@ export default {
 }
 
 .health-metric-label {
-  font-size: 0.688rem;
-  color: #64748b;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .health-metric-value {
-  font-size: 1.75rem;
+  font-size: var(--font-size-2xl);
   font-weight: 700;
-  color: #0f172a;
+  color: var(--color-text-primary);
   letter-spacing: -0.025em;
 }
 
@@ -969,17 +971,17 @@ export default {
 .h-bar-label {
   width: 120px;
   min-width: 120px;
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   font-weight: 600;
-  color: #475569;
+  color: var(--color-text-secondary);
   flex-shrink: 0;
 }
 
 .h-bar-container {
   flex: 1;
   height: 32px;
-  background: #f8fafc;
-  border-radius: 6px;
+  background: var(--color-bg-canvas);
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
@@ -993,7 +995,7 @@ export default {
 }
 
 .h-bar-value {
-  font-size: 0.813rem;
+  font-size: var(--font-size-sm);
   font-weight: 700;
   color: white;
 }
@@ -1009,9 +1011,9 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   padding-right: 1rem;
-  font-size: 0.75rem;
-  color: #94a3b8;
-  border-right: 1px solid #e2e8f0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  border-right: 1px solid var(--color-border-subtle);
 }
 
 .line-chart-area {
@@ -1045,40 +1047,40 @@ export default {
   max-width: 60px;
   min-height: 8px;
   background: #3b82f6;
-  border-radius: 6px 6px 0 0;
+  border-radius: var(--radius-sm) 6px 0 0;
   transition: all 0.3s ease;
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
 }
 
 .line-bar.empty-bar {
-  background: #e2e8f0;
+  background: var(--color-border-subtle);
   box-shadow: none;
   min-height: 4px;
 }
 
 .line-bar:hover {
-  background: #2563eb;
+  background: var(--color-accent);
   transform: scaleY(1.05);
 }
 
 .line-bar.empty-bar:hover {
-  background: #cbd5e1;
+  background: var(--color-border-default);
   transform: none;
 }
 
 .line-bar-label {
-  font-size: 0.75rem;
+  font-size: var(--font-size-xs);
   font-weight: 600;
-  color: #64748b;
+  color: var(--color-text-secondary);
   white-space: nowrap;
 }
 
 .no-data {
   padding: 2rem;
   text-align: center;
-  color: #94a3b8;
-  font-size: 0.875rem;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
 }
 
 .no-backlog {
@@ -1097,7 +1099,7 @@ export default {
 }
 
 .no-backlog-text {
-  font-size: 1.125rem;
+  font-size: var(--font-size-lg);
   color: #10b981;
   font-weight: 600;
   margin: 0;
@@ -1109,7 +1111,7 @@ export default {
 }
 
 .clickable-row:hover {
-  background: #eff6ff !important;
+  background: var(--color-accent-subtle) !important;
 }
 
 /* Tasks Card Styles */
@@ -1130,9 +1132,9 @@ export default {
 .task-input {
   flex: 1;
   padding: 0.75rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border: 2px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
   transition: border-color 0.2s ease;
 }
 
@@ -1146,7 +1148,7 @@ export default {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s ease, opacity 0.2s ease;
@@ -1164,7 +1166,7 @@ export default {
 .no-tasks {
   text-align: center;
   padding: 2rem;
-  color: #64748b;
+  color: var(--color-text-secondary);
   font-style: italic;
 }
 
@@ -1179,14 +1181,14 @@ export default {
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem;
-  background: #f8fafc;
-  border-radius: 8px;
+  background: var(--color-bg-canvas);
+  border-radius: var(--radius-md);
   border: 2px solid transparent;
   transition: all 0.2s ease;
 }
 
 .task-item:hover {
-  border-color: #e2e8f0;
+  border-color: var(--color-border-subtle);
   background: white;
 }
 
@@ -1196,7 +1198,7 @@ export default {
 
 .task-item.completed .task-text {
   text-decoration: line-through;
-  color: #94a3b8;
+  color: var(--color-text-tertiary);
 }
 
 .task-checkbox {
@@ -1210,8 +1212,8 @@ export default {
   flex: 1;
   cursor: pointer;
   user-select: none;
-  color: #0f172a;
-  font-size: 0.95rem;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
 }
 
 .task-delete-btn {
@@ -1220,8 +1222,8 @@ export default {
   background: #ef4444;
   color: white;
   border: none;
-  border-radius: 6px;
-  font-size: 1.25rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-lg);
   line-height: 1;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -1232,15 +1234,15 @@ export default {
 }
 
 .task-delete-btn:hover {
-  background: #dc2626;
+  background: var(--color-danger);
   transform: scale(1.1);
 }
 
 .po-button {
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: 6px;
-  font-size: 0.813rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -1253,13 +1255,13 @@ export default {
 }
 
 .po-button.create:hover {
-  background: #2563eb;
+  background: var(--color-accent);
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
 }
 
 .po-button.view {
-  background: #64748b;
+  background: var(--color-text-secondary);
   color: white;
 }
 

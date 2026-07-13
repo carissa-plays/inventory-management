@@ -74,6 +74,57 @@
           </table>
         </div>
       </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{{ t('orders.submittedOrders.title') }} ({{ restockingOrders.length }})</h3>
+        </div>
+        <div v-if="restockingOrders.length === 0" class="no-data">
+          {{ t('orders.submittedOrders.empty') }}
+        </div>
+        <div v-else class="table-container">
+          <table class="restocking-orders-table">
+            <thead>
+              <tr>
+                <th class="col-order-number">{{ t('orders.submittedOrders.orderId') }}</th>
+                <th class="col-items">{{ t('orders.submittedOrders.items') }}</th>
+                <th class="col-status">{{ t('orders.table.status') }}</th>
+                <th class="col-value">{{ t('orders.submittedOrders.totalCost') }}</th>
+                <th class="col-lead-time">{{ t('orders.submittedOrders.leadTime') }}</th>
+                <th class="col-date">{{ t('orders.submittedOrders.submittedDate') }}</th>
+                <th class="col-date">{{ t('orders.submittedOrders.expectedDelivery') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="order in restockingOrders" :key="order.id">
+                <td class="col-order-number"><strong>{{ order.id }}</strong></td>
+                <td class="col-items">
+                  <details class="items-details">
+                    <summary class="items-summary">
+                      {{ t('orders.itemsCount', { count: order.items.length }) }}
+                    </summary>
+                    <div class="items-dropdown">
+                      <div v-for="(item, idx) in order.items" :key="idx" class="item-entry">
+                        <span class="item-name">{{ translateProductName(item.name) }}</span>
+                        <span class="item-meta">{{ t('orders.quantity') }}: {{ item.quantity }} @ {{ currencySymbol }}{{ item.unit_cost }}</span>
+                      </div>
+                    </div>
+                  </details>
+                </td>
+                <td class="col-status">
+                  <span :class="['badge', getOrderStatusClass(order.status)]">
+                    {{ t(`status.${order.status.toLowerCase()}`) }}
+                  </span>
+                </td>
+                <td class="col-value"><strong>{{ currencySymbol }}{{ order.total_cost.toLocaleString() }}</strong></td>
+                <td class="col-lead-time">{{ t('orders.submittedOrders.leadTimeDays', { days: order.lead_time_days }) }}</td>
+                <td class="col-date">{{ formatDate(order.created_date) }}</td>
+                <td class="col-date">{{ formatDate(order.expected_delivery) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -95,6 +146,7 @@ export default {
     const loading = ref(true)
     const error = ref(null)
     const orders = ref([])
+    const restockingOrders = ref([])
 
     // Use shared filters
     const {
@@ -109,13 +161,21 @@ export default {
       try {
         loading.value = true
         const filters = getCurrentFilters()
-        const fetchedOrders = await api.getOrders(filters)
+        const [fetchedOrders, fetchedRestockingOrders] = await Promise.all([
+          api.getOrders(filters),
+          api.getRestockingOrders()
+        ])
 
         // Sort orders by order_date (earliest first)
         orders.value = fetchedOrders.sort((a, b) => {
           const dateA = new Date(a.order_date)
           const dateB = new Date(b.order_date)
           return dateA - dateB
+        })
+
+        // Sort submitted orders by created_date (most recent first)
+        restockingOrders.value = fetchedRestockingOrders.sort((a, b) => {
+          return new Date(b.created_date) - new Date(a.created_date)
         })
       } catch (err) {
         error.value = 'Failed to load orders: ' + err.message
@@ -160,6 +220,7 @@ export default {
       loading,
       error,
       orders,
+      restockingOrders,
       getOrdersByStatus,
       getOrderStatusClass,
       formatDate,
@@ -172,6 +233,13 @@ export default {
 </script>
 
 <style scoped>
+.no-data {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+}
+
 /* Fixed table layout to prevent column shifting */
 .orders-table {
   table-layout: fixed;
@@ -225,7 +293,7 @@ export default {
   content: '▶';
   display: inline-block;
   margin-right: 0.375rem;
-  font-size: 0.75rem;
+  font-size: var(--font-size-xs);
   transition: transform 0.2s;
 }
 
@@ -234,7 +302,7 @@ export default {
 }
 
 .items-summary:hover {
-  color: #2563eb;
+  color: var(--color-accent);
   text-decoration: underline;
 }
 
@@ -245,8 +313,8 @@ export default {
   left: 0;
   margin-top: 0.5rem;
   background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   padding: 0.75rem;
   z-index: 10;
@@ -259,7 +327,7 @@ export default {
   flex-direction: column;
   gap: 0.25rem;
   padding: 0.5rem;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--color-bg-surface-hover);
 }
 
 .item-entry:last-child {
@@ -267,13 +335,13 @@ export default {
 }
 
 .item-name {
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   font-weight: 500;
-  color: #0f172a;
+  color: var(--color-text-primary);
 }
 
 .item-meta {
-  font-size: 0.813rem;
-  color: #64748b;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
 }
 </style>

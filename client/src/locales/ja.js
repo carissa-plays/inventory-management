@@ -6,6 +6,8 @@ export default {
     orders: '注文',
     finance: '財務',
     demandForecast: '需要予測',
+    restocking: '再発注',
+    reports: 'レポート',
     companyName: '触媒コンポーネンツ',
     subtitle: '在庫管理システム'
   },
@@ -126,6 +128,19 @@ export default {
       status: 'ステータス',
       expectedDelivery: '予定配達日',
       actualDelivery: '実際の配達日'
+    },
+    submittedOrders: {
+      title: '発注済み注文',
+      description: '需要予測の推奨に基づいて発注された再発注注文',
+      empty: 'まだ再発注注文はありません',
+      orderId: '注文ID',
+      items: '品目',
+      budget: '予算',
+      totalCost: '合計コスト',
+      leadTime: 'リードタイム',
+      leadTimeDays: '{days}日',
+      submittedDate: '発注日',
+      expectedDelivery: '予定配達日'
     }
   },
 
@@ -186,6 +201,37 @@ export default {
       trend: 'トレンド',
       period: '期間'
     }
+  },
+
+  // Restocking
+  restocking: {
+    title: '再発注',
+    description: '予算を設定すると、需要予測に基づいて緊急度順に再発注品目を推奨します',
+    budgetLabel: '利用可能な予算',
+    summary: {
+      budget: '予算',
+      recommendedCost: '推奨コスト',
+      remaining: '残額',
+      itemCount: '推奨品目数'
+    },
+    table: {
+      sku: 'SKU',
+      itemName: '品目名',
+      category: 'カテゴリ',
+      warehouse: '倉庫',
+      stock: '在庫数 / 再注文点',
+      trend: 'トレンド',
+      unitCost: '単価',
+      quantity: '推奨数量',
+      lineTotal: '小計'
+    },
+    belowReorderPoint: '再注文点を下回っています',
+    placeOrder: '発注する',
+    placingOrder: '発注中...',
+    noRecommendations: '予算を増やすと再発注の推奨が表示されます',
+    successTitle: '注文を送信しました',
+    successMessage: '注文{id}を{count}品目で送信しました - 配達予定は約{days}日後です。',
+    viewInOrders: '注文タブで確認'
   },
 
   // Filters

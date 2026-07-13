@@ -494,23 +494,23 @@ export default {
 <style scoped>
 .stat-change {
   margin-top: 0.75rem;
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   display: flex;
   align-items: center;
   gap: 0.25rem;
 }
 
 .stat-change.positive {
-  color: #059669;
+  color: var(--color-success);
 }
 
 .stat-change.negative {
-  color: #dc2626;
+  color: var(--color-danger);
 }
 
 .change-icon {
   font-weight: 700;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
 }
 
 .chart-card {
@@ -520,14 +520,14 @@ export default {
 .chart-legend {
   display: flex;
   gap: 1.5rem;
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
 }
 
 .legend-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #64748b;
+  color: var(--color-text-secondary);
 }
 
 .legend-dot {
@@ -540,7 +540,7 @@ export default {
 .legend-dot.operational { background: #8b5cf6; }
 .legend-dot.labor { background: #10b981; }
 .legend-dot.overhead { background: #f59e0b; }
-.legend-dot.revenue-color { background: #0f172a; }
+.legend-dot.revenue-color { background: var(--color-text-primary); }
 .legend-dot.cost-color { background: #ef4444; }
 
 .stats-grid-finance {
@@ -551,7 +551,7 @@ export default {
 }
 
 .revenue-card {
-  border-left: 4px solid #0f172a;
+  border-left: 4px solid var(--color-text-primary);
 }
 
 .cost-card {
@@ -564,8 +564,8 @@ export default {
 
 .stat-meta {
   margin-top: 0.5rem;
-  font-size: 0.813rem;
-  color: #64748b;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
 }
 
 .bar-group-revenue {
@@ -590,14 +590,14 @@ export default {
 .revenue-bar, .cost-bar {
   width: 50%;
   max-width: 30px;
-  border-radius: 6px 6px 0 0;
+  border-radius: var(--radius-sm) 6px 0 0;
   transition: all 0.3s ease;
   cursor: pointer;
   min-height: 4px;
 }
 
 .revenue-bar {
-  background: #0f172a;
+  background: var(--color-text-primary);
 }
 
 .cost-bar {
@@ -624,9 +624,9 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   padding-right: 1rem;
-  font-size: 0.75rem;
-  color: #94a3b8;
-  border-right: 1px solid #e2e8f0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  border-right: 1px solid var(--color-border-subtle);
 }
 
 .chart-area {
@@ -673,7 +673,7 @@ export default {
 }
 
 .bar-segment:last-child {
-  border-radius: 6px 6px 0 0;
+  border-radius: var(--radius-sm) 6px 0 0;
 }
 
 .bar-segment.procurement { background: #3b82f6; }
@@ -687,9 +687,9 @@ export default {
 
 .bar-label {
   margin-top: 0.5rem;
-  font-size: 0.75rem;
+  font-size: var(--font-size-xs);
   font-weight: 600;
-  color: #64748b;
+  color: var(--color-text-secondary);
 }
 
 .two-column-grid {
@@ -718,26 +718,26 @@ export default {
 
 .category-name {
   font-weight: 600;
-  color: #0f172a;
+  color: var(--color-text-primary);
 }
 
 .category-amount {
   font-weight: 700;
-  color: #2563eb;
-  font-size: 1.125rem;
+  color: var(--color-accent);
+  font-size: var(--font-size-lg);
 }
 
 .category-bar-container {
   width: 100%;
   height: 8px;
-  background: #f1f5f9;
+  background: var(--color-bg-surface-hover);
   border-radius: 4px;
   overflow: hidden;
 }
 
 .category-bar {
   height: 100%;
-  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+  background: linear-gradient(90deg, #3b82f6 0%, var(--color-accent) 100%);
   border-radius: 4px;
   transition: width 0.6s ease;
 }
@@ -745,11 +745,11 @@ export default {
 .category-meta {
   display: flex;
   justify-content: space-between;
-  font-size: 0.813rem;
+  font-size: var(--font-size-sm);
 }
 
 .percentage {
-  color: #64748b;
+  color: var(--color-text-secondary);
 }
 
 .change {
@@ -757,11 +757,11 @@ export default {
 }
 
 .change.positive {
-  color: #059669;
+  color: var(--color-success);
 }
 
 .change.negative {
-  color: #dc2626;
+  color: var(--color-danger);
 }
 
 .transactions-card {
@@ -782,7 +782,7 @@ export default {
 .transactions-table thead {
   position: sticky;
   top: 0;
-  background: #f8fafc;
+  background: var(--color-bg-canvas);
   z-index: 1;
 }
 
@@ -790,11 +790,11 @@ export default {
   text-align: left;
   padding: 0.625rem 0.75rem;
   font-weight: 600;
-  color: #475569;
-  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .transactions-table th.text-right {
@@ -803,8 +803,8 @@ export default {
 
 .transactions-table td {
   padding: 0.75rem 0.75rem;
-  border-bottom: 1px solid #f1f5f9;
-  font-size: 0.875rem;
+  border-bottom: 1px solid var(--color-bg-surface-hover);
+  font-size: var(--font-size-sm);
 }
 
 .transactions-table tbody tr {
@@ -813,37 +813,37 @@ export default {
 }
 
 .transactions-table tbody tr:hover {
-  background: #f8fafc;
+  background: var(--color-bg-canvas);
 }
 
 .transactions-table tbody tr.clickable-row:hover {
-  background: #eff6ff;
+  background: var(--color-accent-subtle);
 }
 
 .transaction-id {
-  color: #64748b;
+  color: var(--color-text-secondary);
   font-weight: 500;
   font-family: 'Monaco', 'Courier New', monospace;
-  font-size: 0.813rem;
+  font-size: var(--font-size-sm);
 }
 
 .transaction-description {
-  color: #0f172a;
+  color: var(--color-text-primary);
   font-weight: 500;
 }
 
 .transaction-vendor {
-  color: #64748b;
+  color: var(--color-text-secondary);
 }
 
 .transaction-date {
-  color: #64748b;
-  font-size: 0.813rem;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
 }
 
 .transaction-amount {
   font-weight: 700;
-  color: #0f172a;
+  color: var(--color-text-primary);
 }
 
 .text-right {

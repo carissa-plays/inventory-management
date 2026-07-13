@@ -73,15 +73,26 @@ class TestDemandEndpoints:
         # Check for the new items we added
         skus = [item["item_sku"] for item in data]
 
-        # Should have Temperature Sensor Module and Logic Controller Board
-        assert "SNR-420" in skus, "Missing Temperature Sensor Module"
-        assert "CTL-330" in skus, "Missing Logic Controller Board"
+        # Should have 48V DC Power Supply Unit and 3-Axis Accelerometer
+        assert "PSU-505" in skus, "Missing 48V DC Power Supply Unit"
+        assert "ACC-206" in skus, "Missing 3-Axis Accelerometer"
 
         # Verify they are marked as stable
         for item in data:
-            if item["item_sku"] in ["SNR-420", "CTL-330"]:
+            if item["item_sku"] in ["PSU-505", "ACC-206"]:
                 assert item["trend"].lower() == "stable", \
                     f"New item {item['item_name']} should have stable trend"
+
+    def test_demand_forecast_skus_match_inventory(self, client):
+        """Test that demand forecast SKUs reference real inventory items (data consistency)."""
+        demand_response = client.get("/api/demand")
+        inventory_response = client.get("/api/inventory")
+
+        demand_skus = {item["item_sku"] for item in demand_response.json()}
+        inventory_skus = {item["sku"] for item in inventory_response.json()}
+
+        unmatched = demand_skus - inventory_skus
+        assert not unmatched, f"Demand forecast SKUs missing from inventory: {unmatched}"
 
 
 class TestBacklogEndpoints:

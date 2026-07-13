@@ -6,6 +6,8 @@ export default {
     orders: 'Orders',
     finance: 'Finance',
     demandForecast: 'Demand Forecast',
+    restocking: 'Restocking',
+    reports: 'Reports',
     companyName: 'Catalyst Components',
     subtitle: 'Inventory Management System'
   },
@@ -126,6 +128,19 @@ export default {
       status: 'Status',
       expectedDelivery: 'Expected Delivery',
       actualDelivery: 'Actual Delivery'
+    },
+    submittedOrders: {
+      title: 'Submitted Orders',
+      description: 'Restocking orders placed from demand-forecast recommendations',
+      empty: 'No restocking orders submitted yet',
+      orderId: 'Order ID',
+      items: 'Items',
+      budget: 'Budget',
+      totalCost: 'Total Cost',
+      leadTime: 'Lead Time',
+      leadTimeDays: '{days} days',
+      submittedDate: 'Submitted',
+      expectedDelivery: 'Expected Delivery'
     }
   },
 
@@ -186,6 +201,37 @@ export default {
       trend: 'Trend',
       period: 'Period'
     }
+  },
+
+  // Restocking
+  restocking: {
+    title: 'Restocking',
+    description: 'Set a budget to get urgency-ranked restock recommendations from demand forecasts',
+    budgetLabel: 'Available Budget',
+    summary: {
+      budget: 'Budget',
+      recommendedCost: 'Recommended Cost',
+      remaining: 'Remaining',
+      itemCount: 'Items Recommended'
+    },
+    table: {
+      sku: 'SKU',
+      itemName: 'Item Name',
+      category: 'Category',
+      warehouse: 'Warehouse',
+      stock: 'Stock / Reorder Point',
+      trend: 'Trend',
+      unitCost: 'Unit Cost',
+      quantity: 'Recommended Qty',
+      lineTotal: 'Line Total'
+    },
+    belowReorderPoint: 'Below reorder point',
+    placeOrder: 'Place Order',
+    placingOrder: 'Placing Order...',
+    noRecommendations: 'Increase your budget to see restock recommendations',
+    successTitle: 'Order Submitted',
+    successMessage: 'Order {id} submitted for {count} items — estimated delivery in {days} days.',
+    viewInOrders: 'View in Orders'
   },
 
   // Filters
