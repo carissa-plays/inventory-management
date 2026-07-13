@@ -323,7 +323,7 @@ export default {
 
 .card {
   background: white;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -334,9 +334,9 @@ export default {
 }
 
 .card-title {
-  font-size: 1.25rem;
+  font-size: var(--font-size-lg);
   font-weight: 600;
-  color: #0f172a;
+  color: var(--color-text-primary);
   margin: 0;
 }
 
@@ -346,21 +346,21 @@ export default {
 }
 
 .reports-table th {
-  background: #f8fafc;
+  background: var(--color-bg-canvas);
   padding: 0.75rem;
   text-align: left;
   font-weight: 600;
-  color: #64748b;
-  border-bottom: 2px solid #e2e8f0;
+  color: var(--color-text-secondary);
+  border-bottom: 2px solid var(--color-border-subtle);
 }
 
 .reports-table td {
   padding: 0.75rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .reports-table tr:hover {
-  background: #f8fafc;
+  background: var(--color-bg-canvas);
 }
 
 .chart-container {
@@ -400,13 +400,13 @@ export default {
 }
 
 .bar:hover {
-  background: linear-gradient(to top, #2563eb, #3b82f6);
+  background: linear-gradient(to top, var(--color-accent), #3b82f6);
 }
 
 .bar-label {
   margin-top: 0.5rem;
-  font-size: 0.75rem;
-  color: #64748b;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
   text-align: center;
   transform: rotate(-45deg);
   white-space: nowrap;
@@ -422,44 +422,44 @@ export default {
 
 .stat-card {
   background: white;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border-left: 4px solid #3b82f6;
 }
 
 .stat-label {
-  font-size: 0.875rem;
-  color: #64748b;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
   margin-bottom: 0.5rem;
 }
 
 .stat-value {
-  font-size: 1.875rem;
+  font-size: var(--font-size-2xl);
   font-weight: 700;
-  color: #0f172a;
+  color: var(--color-text-primary);
 }
 
 .badge {
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   font-weight: 500;
 }
 
 .badge.success {
-  background: #dcfce7;
-  color: #166534;
+  background: var(--color-success-subtle);
+  color: var(--color-success);
 }
 
 .badge.warning {
-  background: #fef3c7;
-  color: #92400e;
+  background: var(--color-warning-subtle);
+  color: var(--color-warning);
 }
 
 .badge.danger {
-  background: #fee2e2;
-  color: #991b1b;
+  background: var(--color-danger-subtle);
+  color: var(--color-danger);
 }
 
 .positive-change {
@@ -468,21 +468,21 @@ export default {
 }
 
 .negative-change {
-  color: #dc2626;
+  color: var(--color-danger);
   font-weight: 600;
 }
 
 .loading {
   text-align: center;
   padding: 3rem;
-  color: #64748b;
+  color: var(--color-text-secondary);
 }
 
 .error {
-  background: #fee2e2;
-  color: #991b1b;
+  background: var(--color-danger-subtle);
+  color: var(--color-danger);
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   margin: 1rem 0;
 }
 </style>

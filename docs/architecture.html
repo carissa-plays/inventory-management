@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Factory Inventory Management — Architecture</title>
+<style>
+  :root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --ink: #0f172a;
+    --muted: #64748b;
+    --accent: #2563eb;
+    --accent-soft: #eff6ff;
+    --green: #16a34a;
+    --green-soft: #f0fdf4;
+    --amber: #d97706;
+    --amber-soft: #fffbeb;
+    --shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.08);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b1220;
+      --surface: #131c2e;
+      --border: #253048;
+      --ink: #e6ebf5;
+      --muted: #93a1b8;
+      --accent: #60a5fa;
+      --accent-soft: #16233d;
+      --green: #4ade80;
+      --green-soft: #12261a;
+      --amber: #fbbf24;
+      --amber-soft: #2b2210;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.4);
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  header {
+    margin-bottom: 3rem;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  header p {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 640px;
+    margin: 0;
+  }
+
+  section {
+    margin-bottom: 3.5rem;
+  }
+
+  h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin: 0 0 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  /* Tech stack */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .stack-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+  }
+
+  .stack-card .label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .stack-card .title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .stack-card ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .stack-card li {
+    font-size: 0.875rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .stack-card li strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .stack-card li code {
+    font-size: 0.75rem;
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  /* Architecture diagram */
+  .diagram {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+
+  .diagram-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    min-width: 720px;
+  }
+
+  .node {
+    flex: 1;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 96px;
+  }
+
+  .node.emphasis {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  .node .port {
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  .node .name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin: 0.15rem 0;
+  }
+
+  .node .desc {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .arrow {
+    flex: 0 0 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 1.25rem;
+    position: relative;
+  }
+
+  .arrow::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: var(--border);
+    z-index: 0;
+  }
+
+  .arrow span {
+    z-index: 1;
+    background: var(--surface);
+    padding: 0 0.25rem;
+  }
+
+  .diagram-caption {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 1rem;
+  }
+
+  /* Data flow */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .flow-step {
+    display: flex;
+    gap: 1rem;
+    position: relative;
+    padding-bottom: 1.75rem;
+  }
+
+  .flow-step:last-child { padding-bottom: 0; }
+
+  .flow-step::before {
+    content: "";
+    position: absolute;
+    left: 15px;
+    top: 34px;
+    bottom: 0;
+    width: 1.5px;
+    background: var(--border);
+  }
+
+  .flow-step:last-child::before { display: none; }
+
+  .flow-dot {
+    flex: 0 0 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    z-index: 1;
+  }
+
+  .flow-body {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.85rem 1.1rem;
+    box-shadow: var(--shadow);
+    flex: 1;
+  }
+
+  .flow-body .title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .flow-body .detail {
+    font-size: 0.825rem;
+    color: var(--muted);
+  }
+
+  .flow-body code {
+    font-size: 0.78rem;
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 0.05rem 0.35rem;
+    border-radius: 4px;
+  }
+
+  /* Notes */
+  .note-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+
+  .note-card {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    box-shadow: var(--shadow);
+  }
+
+  .note-card .title {
+    font-weight: 700;
+    font-size: 0.875rem;
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    display: inline-block;
+    flex: none;
+  }
+
+  .dot.amber { background: var(--amber); }
+  .dot.green { background: var(--green); }
+  .dot.accent { background: var(--accent); }
+
+  .note-card p {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 640px) {
+    .diagram-row { flex-direction: column; min-width: 0; }
+    .arrow { transform: rotate(90deg); flex: 0 0 32px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Architecture Overview</div>
+    <h1>Factory Inventory Management System</h1>
+    <p>A full-stack demo application — Vue 3 single-page frontend, FastAPI backend, and in-memory mock data. No database, no real authentication; built for a Claude Code workshop.</p>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span>Tech Stack</h2>
+    <div class="stack-grid">
+      <div class="stack-card">
+        <div class="label">Frontend</div>
+        <div class="title">Vue 3 SPA</div>
+        <ul>
+          <li><span>Framework</span><strong>Vue 3</strong></li>
+          <li><span>API style</span><strong>Composition API</strong></li>
+          <li><span>Build tool</span><strong>Vite</strong></li>
+          <li><span>Routing</span><strong>vue-router</strong></li>
+          <li><span>HTTP client</span><strong>axios</strong></li>
+          <li><span>Dev port</span><code>:3000</code></li>
+        </ul>
+      </div>
+      <div class="stack-card">
+        <div class="label">Backend</div>
+        <div class="title">FastAPI Service</div>
+        <ul>
+          <li><span>Framework</span><strong>FastAPI</strong></li>
+          <li><span>Validation</span><strong>Pydantic v2</strong></li>
+          <li><span>Server</span><strong>Uvicorn</strong></li>
+          <li><span>Package mgmt</span><strong>uv</strong></li>
+          <li><span>Testing</span><strong>pytest + TestClient</strong></li>
+          <li><span>Dev port</span><code>:8001</code></li>
+        </ul>
+      </div>
+      <div class="stack-card">
+        <div class="label">Data</div>
+        <div class="title">In-Memory / JSON</div>
+        <ul>
+          <li><span>Storage</span><strong>Static JSON files</strong></li>
+          <li><span>Location</span><strong>server/data/*.json</strong></li>
+          <li><span>Loader</span><strong>mock_data.py</strong></li>
+          <li><span>Persistence</span><strong>None</strong></li>
+          <li><span>Database</span><strong>None</strong></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>System Architecture</h2>
+    <div class="diagram">
+      <div class="diagram-row">
+        <div class="node emphasis">
+          <div class="port">Browser</div>
+          <div class="name">Vue 3 SPA</div>
+          <div class="desc">Views, components, composables</div>
+        </div>
+        <div class="arrow"><span>&#8596;</span></div>
+        <div class="node">
+          <div class="port">HTTP · axios</div>
+          <div class="name">client/src/api.js</div>
+          <div class="desc">Centralized API client</div>
+        </div>
+        <div class="arrow"><span>&#8594;</span></div>
+        <div class="node emphasis">
+          <div class="port">:8001</div>
+          <div class="name">FastAPI · main.py</div>
+          <div class="desc">Routes, filters, Pydantic models</div>
+        </div>
+        <div class="arrow"><span>&#8594;</span></div>
+        <div class="node">
+          <div class="port">In-memory</div>
+          <div class="name">mock_data.py</div>
+          <div class="desc">Loads JSON at startup</div>
+        </div>
+        <div class="arrow"><span>&#8594;</span></div>
+        <div class="node">
+          <div class="port">Static files</div>
+          <div class="name">server/data/*.json</div>
+          <div class="desc">Inventory, orders, spending…</div>
+        </div>
+      </div>
+      <div class="diagram-caption">Single-process backend serving a separately-hosted dev frontend — no database tier, no auth tier.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>Data Flow — the Filter System</h2>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-dot">1</div>
+        <div class="flow-body">
+          <div class="title">User adjusts a filter</div>
+          <div class="detail">Time Period, Warehouse, Category, or Order Status — bound to module-level refs in <code>useFilters.js</code>, shared (singleton) across every component that imports it.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">2</div>
+        <div class="flow-body">
+          <div class="title">View requests data</div>
+          <div class="detail">Calls <code>api.js</code> with <code>getCurrentFilters()</code>; filters become query params (<code>warehouse</code>, <code>category</code>, <code>status</code>, <code>month</code>) — a value of <code>'all'</code> means "no filter".</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">3</div>
+        <div class="flow-body">
+          <div class="title">FastAPI route receives the request</div>
+          <div class="detail">Endpoint in <code>main.py</code> re-applies the same filter logic server-side via <code>apply_filters()</code> and <code>filter_by_month()</code> (quarters like <code>Q1-2025</code> or direct months like <code>2025-01</code>).</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">4</div>
+        <div class="flow-body">
+          <div class="title">Result validated against a Pydantic model</div>
+          <div class="detail">Response shape is enforced by <code>response_model</code> before serialization — keeps the JSON contract consistent with the frontend's expectations.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">5</div>
+        <div class="flow-body">
+          <div class="title">Vue renders derived state</div>
+          <div class="detail">Raw response lands in a ref (e.g. <code>allOrders</code>); views compute filtered/aggregated values from it via <code>computed()</code> rather than storing duplicate filtered lists.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>Notable Characteristics</h2>
+    <div class="note-grid">
+      <div class="note-card">
+        <div class="title"><span class="dot amber"></span>No time dimension on inventory</div>
+        <p><code>/api/inventory</code> ignores the <code>month</code> filter — only orders, backlog-adjacent, and dashboard data are date-aware.</p>
+      </div>
+      <div class="note-card">
+        <div class="title"><span class="dot accent"></span>Auth is fully mocked</div>
+        <p><code>useAuth.js</code> hardcodes an authenticated user; there is no login flow or server-side auth check anywhere in the stack.</p>
+      </div>
+      <div class="note-card">
+        <div class="title"><span class="dot green"></span>Stateless backend</div>
+        <p>All data loads into memory at startup from JSON files; nothing written during a request persists past a server restart.</p>
+      </div>
+      <div class="note-card">
+        <div class="title"><span class="dot amber"></span>Public repository</div>
+        <p>No secrets, internal hostnames, or private registry URLs should ever be committed — this repo and any fork are public.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Generated from a codebase walkthrough of the Factory Inventory Management System (Claude Code workshop demo). Not production-ready without a database, real authentication, and hardened security.
+  </footer>
+
+</div>
+</body>
+</html>
